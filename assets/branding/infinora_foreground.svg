@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <!-- Android Adaptive Icon Foreground Layer (Transparent BG, Safe Area 66dp center) -->
+  <g transform="translate(54, 54) scale(0.1054) translate(-512, -512)">
+    <!-- Left Lobe (Primary Violet #6558F5) -->
+    <path d="M 512 512 C 437 607 357 632 297 587 C 247 550 247 474 297 437 C 357 392 437 417 512 512 Z"
+          fill="none" stroke="#6558F5" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Right Lobe (Secondary Purple #9A79F8) -->
+    <path d="M 512 512 C 587 417 667 392 727 437 C 777 474 777 550 727 587 C 667 632 587 607 512 512 Z"
+          fill="none" stroke="#9A79F8" stroke-width="52" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Overpass Shadow & Ribbon Crossing -->
+    <path d="M 457 442 C 487 477 537 547 567 582"
+          fill="none" stroke="#0B0720" stroke-width="58" stroke-linecap="round" opacity="0.35"/>
+    <path d="M 457 442 C 487 477 537 547 567 582"
+          fill="none" stroke="#6558F5" stroke-width="52" stroke-linecap="round"/>
+
+    <!-- Left Nested Zoom Aperture 1 (Accent #B6A8FF) -->
+    <path d="M 452 512 C 422 560 372 570 342 548 C 317 530 317 494 342 476 C 372 454 422 464 452 512 Z"
+          fill="none" stroke="#B6A8FF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Left Nested Zoom Aperture 2 (White #FFFFFF) -->
+    <path d="M 422 512 C 404 536 380 540 366 528 C 354 520 354 504 366 496 C 380 484 404 488 422 512 Z"
+          fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Right Nested Zoom Aperture 1 (Deep Purple #4835C9) -->
+    <path d="M 572 512 C 602 464 652 454 682 476 C 707 494 707 530 682 548 C 652 570 602 560 572 512 Z"
+          fill="none" stroke="#4835C9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Right Nested Zoom Aperture 2 (White #FFFFFF) -->
+    <path d="M 602 512 C 620 488 644 484 658 496 C 670 504 670 520 658 528 C 644 540 620 536 602 512 Z"
+          fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Center Infinite Canvas Origin Node -->
+    <circle cx="512" cy="512" r="10" fill="#B6A8FF" opacity="0.6"/>
+    <circle cx="512" cy="512" r="6.5" fill="#FFFFFF"/>
+  </g>
+</svg>
