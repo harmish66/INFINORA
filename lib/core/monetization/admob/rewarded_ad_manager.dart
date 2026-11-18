@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'ad_config.dart';
@@ -7,13 +9,35 @@ import 'ad_frequency_manager.dart';
 class RewardedAdManager {
   static RewardedAd? _rewardedAd;
   static bool _isLoading = false;
+  static DateTime? _loadedTime;
+  static int _retryAttempt = 0;
+  static Timer? _retryTimer;
+
+  static bool get isAdAvailable {
+    if (_rewardedAd == null) return false;
+    if (_loadedTime != null &&
+        DateTime.now().difference(_loadedTime!).inHours >= 4) {
+      debugPrint('[AdMob Rewarded] Cached ad expired. Disposing and reloading.');
+      _rewardedAd?.dispose();
+      _rewardedAd = null;
+      _loadedTime = null;
+      preloadRewardedAd();
+      return false;
+    }
+    return true;
+  }
 
   static void preloadRewardedAd() {
-    if (!AdConfig.enableRewardedAds || _isLoading || _rewardedAd != null) {
+    if (!AdConfig.isAdMobEnabled || !AdConfig.enableRewardedAds) {
+      return;
+    }
+    if (_isLoading || isAdAvailable) {
       return;
     }
 
     _isLoading = true;
+    _retryTimer?.cancel();
+
     AdAnalyticsTracker.track(
       type: AdEventType.adRequest,
       adFormat: 'rewarded',
@@ -26,7 +50,10 @@ class RewardedAdManager {
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
           _rewardedAd = ad;
+          _loadedTime = DateTime.now();
           _isLoading = false;
+          _retryAttempt = 0;
+          debugPrint('[AdMob Rewarded] Preload successful and ready.');
           AdAnalyticsTracker.track(
             type: AdEventType.adLoaded,
             adFormat: 'rewarded',
@@ -36,6 +63,7 @@ class RewardedAdManager {
         onAdFailedToLoad: (error) {
           debugPrint('[AdMob Rewarded] Failed to preload: ${error.message}');
           _rewardedAd = null;
+          _loadedTime = null;
           _isLoading = false;
           AdAnalyticsTracker.track(
             type: AdEventType.adFailed,
@@ -43,9 +71,19 @@ class RewardedAdManager {
             placement: 'preload',
             errorMessage: error.message,
           );
+          _scheduleRetry();
         },
       ),
     );
+  }
+
+  static void _scheduleRetry() {
+    _retryTimer?.cancel();
+    _retryAttempt++;
+    final delaySeconds = math.min(math.pow(2, _retryAttempt).toInt() * 2, 60);
+    _retryTimer = Timer(Duration(seconds: delaySeconds), () {
+      preloadRewardedAd();
+    });
   }
 
   static Future<void> showRewardedAdWithConsent({
@@ -173,8 +211,11 @@ class RewardedAdManager {
   }
 
   static void dispose() {
+    _retryTimer?.cancel();
     _rewardedAd?.dispose();
     _rewardedAd = null;
+    _loadedTime = null;
     _isLoading = false;
+    _retryAttempt = 0;
   }
 }

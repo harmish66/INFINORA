@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/monetization/admob/navigation_ad_controller.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../export/presentation/export_bottom_sheet.dart';
 import '../../projects/domain/models/project_model.dart';
@@ -30,6 +31,18 @@ class CanvasScreen extends ConsumerStatefulWidget {
 
 class _CanvasScreenState extends ConsumerState<CanvasScreen> {
   final ImagePicker _imagePicker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    NavigationAdController.setCreativeWorkflowActive(true);
+  }
+
+  @override
+  void dispose() {
+    NavigationAdController.setCreativeWorkflowActive(false);
+    super.dispose();
+  }
 
   void _showTextDialog(BuildContext context, CanvasController controller) {
     final textController = TextEditingController();

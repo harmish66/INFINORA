@@ -1,9 +1,118 @@
+import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../subscriptions/subscription_service.dart';
 import 'ad_config.dart';
 import 'ad_events.dart';
+
+/// Centralized Preloaded Native Ads Pool for instant, zero-delay rendering
+class NativeAdPreloadPool {
+  static final List<NativeAd> _smallAdsPool = [];
+  static bool _isLoadingSmall = false;
+  static int _smallRetryAttempt = 0;
+  static Timer? _smallRetryTimer;
+  static const int maxPoolSize = 2;
+
+  static bool get hasSmallAd => _smallAdsPool.isNotEmpty;
+
+  static void preloadSmall() {
+    if (!AdConfig.isAdMobEnabled || !AdConfig.enableNativeAds) return;
+    if (_smallAdsPool.length >= maxPoolSize || _isLoadingSmall) return;
+
+    _isLoadingSmall = true;
+    _smallRetryTimer?.cancel();
+
+    AdAnalyticsTracker.track(
+      type: AdEventType.adRequest,
+      adFormat: 'native',
+      placement: 'preload_pool_small',
+    );
+
+    NativeAd? ad;
+    ad = NativeAd(
+      adUnitId: AdConfig.nativeAdUnitId,
+      request: const AdRequest(),
+      listener: NativeAdListener(
+        onAdLoaded: (loadedAd) {
+          _isLoadingSmall = false;
+          _smallRetryAttempt = 0;
+          _smallAdsPool.add(loadedAd as NativeAd);
+          debugPrint('[NativeAdPreloadPool] Preloaded small ad ready (pool: ${_smallAdsPool.length})');
+          AdAnalyticsTracker.track(
+            type: AdEventType.adLoaded,
+            adFormat: 'native',
+            placement: 'preload_pool_small',
+          );
+          if (_smallAdsPool.length < maxPoolSize) {
+            preloadSmall();
+          }
+        },
+        onAdFailedToLoad: (failedAd, error) {
+          debugPrint('[NativeAdPreloadPool] Failed to preload small ad: ${error.message}');
+          _isLoadingSmall = false;
+          failedAd.dispose();
+          _scheduleRetry();
+        },
+      ),
+      nativeTemplateStyle: NativeTemplateStyle(
+        templateType: TemplateType.small,
+        cornerRadius: 12.0,
+        callToActionTextStyle: NativeTemplateTextStyle(
+          textColor: Colors.white,
+          backgroundColor: const Color(0xFF0284C7),
+          style: NativeTemplateFontStyle.bold,
+          size: 13.0,
+        ),
+        primaryTextStyle: NativeTemplateTextStyle(
+          style: NativeTemplateFontStyle.bold,
+          size: 13.5,
+        ),
+        secondaryTextStyle: NativeTemplateTextStyle(
+          style: NativeTemplateFontStyle.normal,
+          size: 11.5,
+        ),
+        tertiaryTextStyle: NativeTemplateTextStyle(
+          style: NativeTemplateFontStyle.normal,
+          size: 10.5,
+        ),
+      ),
+    );
+
+    ad.load();
+  }
+
+  static void _scheduleRetry() {
+    _smallRetryTimer?.cancel();
+    _smallRetryAttempt++;
+    final delaySeconds = math.min(math.pow(2, _smallRetryAttempt).toInt() * 2, 60);
+    _smallRetryTimer = Timer(Duration(seconds: delaySeconds), () {
+      preloadSmall();
+    });
+  }
+
+  /// Claims an already loaded NativeAd from the pool. Returns null if none ready.
+  static NativeAd? claimSmall() {
+    if (_smallAdsPool.isNotEmpty) {
+      final ad = _smallAdsPool.removeAt(0);
+      Future.microtask(() => preloadSmall());
+      return ad;
+    }
+    preloadSmall();
+    return null;
+  }
+
+  static void disposeAll() {
+    _smallRetryTimer?.cancel();
+    for (final ad in _smallAdsPool) {
+      ad.dispose();
+    }
+    _smallAdsPool.clear();
+    _isLoadingSmall = false;
+    _smallRetryAttempt = 0;
+  }
+}
 
 /// Core Real Google Mobile Ads Native Ad Widget with NativeTemplateStyle
 class RealNativeAdWidget extends ConsumerStatefulWidget {
@@ -32,6 +141,22 @@ class _RealNativeAdWidgetState extends ConsumerState<RealNativeAdWidget> {
   @override
   void initState() {
     super.initState();
+    final isAdFree = ref.read(isAdFreeUserProvider);
+    if (!isAdFree && AdConfig.isAdMobEnabled && widget.templateType == TemplateType.small) {
+      final preloaded = NativeAdPreloadPool.claimSmall();
+      if (preloaded != null) {
+        _nativeAd = preloaded;
+        _isLoaded = true;
+        _hasFailed = false;
+        AdAnalyticsTracker.track(
+          type: AdEventType.adLoaded,
+          adFormat: 'native',
+          placement: '${widget.placement}_preloaded',
+        );
+        return;
+      }
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadNativeAd();
     });

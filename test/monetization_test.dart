@@ -3,6 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:infinora/core/monetization/admob/ad_config.dart';
 import 'package:infinora/core/monetization/admob/ad_events.dart';
 import 'package:infinora/core/monetization/admob/ad_frequency_manager.dart';
+import 'package:infinora/core/monetization/admob/ad_preload_manager.dart';
+import 'package:infinora/core/monetization/admob/banner_ad_manager.dart';
+import 'package:infinora/core/monetization/admob/native_ad_manager.dart';
+import 'package:infinora/core/monetization/admob/navigation_ad_controller.dart';
 import 'package:infinora/core/monetization/subscriptions/premium_entitlement.dart';
 
 void main() {
@@ -107,6 +111,42 @@ void main() {
       expect(recent, isNotEmpty);
       expect(AdAnalyticsTracker.requestCount, greaterThanOrEqualTo(1));
       expect(AdAnalyticsTracker.impressionCount, greaterThanOrEqualTo(1));
+    });
+  });
+
+  group('AdPreloadManager & Ad Pools Tests', () {
+    test('AdPreloadManager disposeAll clears pools without throwing', () {
+      AdPreloadManager.disposeAll();
+      expect(NativeAdPreloadPool.hasSmallAd, isFalse);
+      expect(BannerAdPreloadPool.isAvailable, isFalse);
+    });
+
+    test('PreloadAll with isAdFree true clears any active cached ads', () {
+      AdPreloadManager.preloadAll(isAdFree: true);
+      expect(NativeAdPreloadPool.hasSmallAd, isFalse);
+      expect(BannerAdPreloadPool.isAvailable, isFalse);
+    });
+
+    test('Creative workflow state blocks navigation interstitial ads', () {
+      NavigationAdController.setCreativeWorkflowActive(true);
+      expect(NavigationAdController.isCreativeWorkflowActive, isTrue);
+
+      final eligible = NavigationAdController.isEligibleForNavigationAd(
+        destinationRoute: '/home',
+        isAdFree: false,
+      );
+      expect(eligible, isFalse);
+
+      NavigationAdController.setCreativeWorkflowActive(false);
+      expect(NavigationAdController.isCreativeWorkflowActive, isFalse);
+    });
+
+    test('NativeAdPreloadPool and BannerAdPreloadPool claim returns null on empty pool safely', () {
+      final claimedNative = NativeAdPreloadPool.claimSmall();
+      expect(claimedNative, isNull);
+
+      final claimedBanner = BannerAdPreloadPool.claimBanner();
+      expect(claimedBanner, isNull);
     });
   });
 }
