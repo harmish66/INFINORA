@@ -179,8 +179,18 @@ class _CanvasScreenState extends ConsumerState<CanvasScreen> {
     final state = ref.watch(canvasControllerProvider(widget.project));
     final controller = ref.read(canvasControllerProvider(widget.project).notifier);
 
-    return Scaffold(
-      body: LayoutBuilder(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        await controller.saveProjectManual();
+        if (context.mounted) {
+          ref.read(projectsListProvider.notifier).refresh();
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        body: LayoutBuilder(
         builder: (context, constraints) {
           final viewportSize = Size(constraints.maxWidth, constraints.maxHeight);
           if (state.camera.viewportSize != viewportSize) {
@@ -274,9 +284,12 @@ class _CanvasScreenState extends ConsumerState<CanvasScreen> {
                   canRedo: state.canRedo,
                   showMinimap: state.showMinimap,
                   showLayersPanel: state.showLayersPanel,
-                  onBack: () {
-                    controller.saveProjectManual();
-                    Navigator.of(context).pop();
+                  onBack: () async {
+                    await controller.saveProjectManual();
+                    if (context.mounted) {
+                      ref.read(projectsListProvider.notifier).refresh();
+                      Navigator.of(context).pop();
+                    }
                   },
                   onUndo: controller.undo,
                   onRedo: controller.redo,
@@ -434,6 +447,7 @@ class _CanvasScreenState extends ConsumerState<CanvasScreen> {
             ],
           );
         },
+      ),
       ),
     );
   }

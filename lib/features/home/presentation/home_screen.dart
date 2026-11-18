@@ -38,13 +38,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.dispose();
   }
 
-  void _openProject(ProjectModel project) {
-    Navigator.push(
+  Future<void> _openProject(ProjectModel project) async {
+    final repo = ref.read(projectRepositoryProvider);
+    final fullProject = await repo.getProjectById(project.id) ?? project;
+
+    if (!mounted) return;
+    await Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => CanvasScreen(project: project)),
-    ).then((_) {
+      MaterialPageRoute(builder: (_) => CanvasScreen(project: fullProject)),
+    );
+    if (mounted) {
       ref.read(projectsListProvider.notifier).refresh();
-    });
+    }
   }
 
   Future<void> _handleNewCanvas() async {

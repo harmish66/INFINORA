@@ -192,7 +192,7 @@ class CanvasController extends Notifier<CanvasState> implements CanvasCommandCon
           )
         : initialProject;
 
-    Future.microtask(() => _loadExistingImages());
+    Future.microtask(() => _initAndLoadProject());
 
     return CanvasState(
       project: project,
@@ -202,6 +202,24 @@ class CanvasController extends Notifier<CanvasState> implements CanvasCommandCon
       ),
       activeLayerId: defaultLayerId,
     );
+  }
+
+  Future<void> _initAndLoadProject() async {
+    try {
+      final repo = ref.read(projectRepositoryProvider);
+      final latest = await repo.getProjectById(initialProject.id);
+      if (latest != null && latest.objects.isNotEmpty) {
+        state = state.copyWith(
+          project: state.project.copyWith(
+            layers: latest.layers.isNotEmpty ? latest.layers : state.project.layers,
+            objects: latest.objects,
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('[CanvasController] Error loading project: $e');
+    }
+    await _loadExistingImages();
   }
 
   @override
@@ -1131,6 +1149,7 @@ class CanvasController extends Notifier<CanvasState> implements CanvasCommandCon
   }
 
   Future<void> saveProjectManual() async {
+    _autosaveTimer?.cancel();
     state = state.copyWith(isSaving: true);
     try {
       final repo = ref.read(projectRepositoryProvider);

@@ -24,7 +24,16 @@ class ProjectRepository {
     query.orderBy([(tbl) => OrderingTerm.desc(tbl.updatedAt)]);
     final rows = await query.get();
 
-    return rows.map(_projectFromRow).toList();
+    final projects = <ProjectModel>[];
+    for (final row in rows) {
+      final p = await getProjectById(row.id);
+      if (p != null) {
+        projects.add(p);
+      } else {
+        projects.add(_projectFromRow(row));
+      }
+    }
+    return projects;
   }
 
   Future<List<ProjectModel>> getFavoriteProjects() async {
@@ -32,7 +41,17 @@ class ProjectRepository {
       ..where((tbl) => tbl.isFavorite.equals(true) & tbl.isArchived.equals(false))
       ..orderBy([(tbl) => OrderingTerm.desc(tbl.updatedAt)]);
     final rows = await query.get();
-    return rows.map(_projectFromRow).toList();
+
+    final projects = <ProjectModel>[];
+    for (final row in rows) {
+      final p = await getProjectById(row.id);
+      if (p != null) {
+        projects.add(p);
+      } else {
+        projects.add(_projectFromRow(row));
+      }
+    }
+    return projects;
   }
 
   Future<List<ProjectModel>> getArchivedProjects() async {
@@ -40,7 +59,17 @@ class ProjectRepository {
       ..where((tbl) => tbl.isArchived.equals(true))
       ..orderBy([(tbl) => OrderingTerm.desc(tbl.updatedAt)]);
     final rows = await query.get();
-    return rows.map(_projectFromRow).toList();
+
+    final projects = <ProjectModel>[];
+    for (final row in rows) {
+      final p = await getProjectById(row.id);
+      if (p != null) {
+        projects.add(p);
+      } else {
+        projects.add(_projectFromRow(row));
+      }
+    }
+    return projects;
   }
 
   Future<ProjectModel?> getProjectById(String id) async {
