@@ -464,6 +464,17 @@ class _TemplatesScreenState extends ConsumerState<TemplatesScreen> {
               const SliverToBoxAdapter(child: SizedBox(height: 16)),
             ],
 
+            // Real Google Mobile Ads Native Ad Section
+            if (!isAdFree && AdConfig.isAdMobEnabled && AdConfig.enableTemplateNativeAd) ...[
+              const SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverToBoxAdapter(
+                  child: NativeTemplateSectionAdWidget(),
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 12)),
+            ],
+
             // Section Header: All Templates
             SliverToBoxAdapter(
               child: Padding(
