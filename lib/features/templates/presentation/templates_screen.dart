@@ -88,9 +88,6 @@ class _TemplatesScreenState extends ConsumerState<TemplatesScreen> {
     final favorites = ref.watch(favoriteTemplatesProvider);
     final filtered = _filterTemplates(allTemplates, favorites);
     final isAdFree = ref.watch(isAdFreeUserProvider);
-    final bool showNativeAd = !isAdFree && AdConfig.enableNativeAds && filtered.length >= 4;
-    const int adInsertIndex = 3;
-    final int gridItemCount = showNativeAd ? filtered.length + 1 : filtered.length;
 
     final showFeatured = _searchQuery.isEmpty &&
         !_onlyFavorites &&
@@ -566,13 +563,7 @@ class _TemplatesScreenState extends ConsumerState<TemplatesScreen> {
                   ),
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      if (showNativeAd && index == adInsertIndex) {
-                        return const NativeAdCardWidget(placement: 'templates_grid');
-                      }
-
-                      final templateIndex =
-                          (showNativeAd && index > adInsertIndex) ? index - 1 : index;
-                      final tpl = filtered[templateIndex];
+                      final tpl = filtered[index];
                       final previewProj = tpl.toProject(tpl.title);
                       final isFav = favorites.contains(tpl.id);
 
@@ -721,7 +712,7 @@ class _TemplatesScreenState extends ConsumerState<TemplatesScreen> {
                         ),
                       );
                     },
-                    childCount: gridItemCount,
+                    childCount: filtered.length,
                   ),
                 ),
               ),

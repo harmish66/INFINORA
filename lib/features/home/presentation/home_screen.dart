@@ -52,6 +52,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
+  Widget _buildGridCard(ProjectModel proj) {
+    return _CommercialGridCard(
+      project: proj,
+      onTap: () => _openProject(proj),
+      onToggleFavorite: () {
+        ref.read(projectsListProvider.notifier).toggleFavorite(
+              proj.id,
+              !proj.isFavorite,
+            );
+      },
+      onRename: () => _showRenameDialog(proj),
+      onDuplicate: () async {
+        final dup = await ref.read(projectsListProvider.notifier).duplicateProject(
+              proj.id,
+              '${proj.name} (Copy)',
+            );
+        if (mounted) _openProject(dup);
+      },
+      onToggleArchive: () {
+        ref.read(projectsListProvider.notifier).toggleArchive(
+              proj.id,
+              !proj.isArchived,
+            );
+      },
+      onDelete: () => _showDeleteDialog(proj),
+    );
+  }
+
   Future<void> _handleNewCanvas() async {
     const uuid = Uuid();
     final projectId = uuid.v4();
@@ -481,7 +509,51 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const adIndex = 2;
 
                   if (_isGridView) {
-                    final gridCount = showProjectNativeAd ? filtered.length + 1 : filtered.length;
+                    if (showProjectNativeAd && filtered.length >= 2) {
+                      final firstChunk = filtered.take(2).toList();
+                      final remainingChunk = filtered.skip(2).toList();
+                      return CustomScrollView(
+                        slivers: [
+                          SliverPadding(
+                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                            sliver: SliverGrid(
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.85,
+                                crossAxisSpacing: 12,
+                                mainAxisSpacing: 12,
+                              ),
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) => _buildGridCard(firstChunk[index]),
+                                childCount: firstChunk.length,
+                              ),
+                            ),
+                          ),
+                          const SliverToBoxAdapter(
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+                              child: NativeProjectListAdWidget(),
+                            ),
+                          ),
+                          if (remainingChunk.isNotEmpty)
+                            SliverPadding(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                              sliver: SliverGrid(
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.85,
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                ),
+                                delegate: SliverChildBuilderDelegate(
+                                  (context, index) => _buildGridCard(remainingChunk[index]),
+                                  childCount: remainingChunk.length,
+                                ),
+                              ),
+                            ),
+                        ],
+                      );
+                    }
                     return GridView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -490,40 +562,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         crossAxisSpacing: 12,
                         mainAxisSpacing: 12,
                       ),
-                      itemCount: gridCount,
-                      itemBuilder: (context, index) {
-                        if (showProjectNativeAd && index == adIndex) {
-                          return const NativeAdCardWidget(placement: 'home_project_grid');
-                        }
-                        final projIndex =
-                            (showProjectNativeAd && index > adIndex) ? index - 1 : index;
-                        final proj = filtered[projIndex];
-                        return _CommercialGridCard(
-                          project: proj,
-                          onTap: () => _openProject(proj),
-                          onToggleFavorite: () {
-                            ref.read(projectsListProvider.notifier).toggleFavorite(
-                                  proj.id,
-                                  !proj.isFavorite,
-                                );
-                          },
-                          onRename: () => _showRenameDialog(proj),
-                          onDuplicate: () async {
-                            final dup = await ref.read(projectsListProvider.notifier).duplicateProject(
-                                  proj.id,
-                                  '${proj.name} (Copy)',
-                                );
-                            if (mounted) _openProject(dup);
-                          },
-                          onToggleArchive: () {
-                            ref.read(projectsListProvider.notifier).toggleArchive(
-                                  proj.id,
-                                  !proj.isArchived,
-                                );
-                          },
-                          onDelete: () => _showDeleteDialog(proj),
-                        );
-                      },
+                      itemCount: filtered.length,
+                      itemBuilder: (context, index) => _buildGridCard(filtered[index]),
                     );
                   } else {
                     final listCount = showProjectNativeAd ? filtered.length + 1 : filtered.length;
