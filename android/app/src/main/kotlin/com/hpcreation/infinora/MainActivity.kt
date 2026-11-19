@@ -1,4 +1,4 @@
-package com.infinora.studio.infinora
+package com.hpcreation.infinora
 
 import io.flutter.embedding.android.FlutterActivity
 

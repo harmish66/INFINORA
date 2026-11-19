@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.infinora.studio" "\0"
+            VALUE "CompanyName", "com.hpcreation" "\0"
             VALUE "FileDescription", "infinora" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "infinora" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.infinora.studio. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 com.hpcreation. All rights reserved." "\0"
             VALUE "OriginalFilename", "infinora.exe" "\0"
             VALUE "ProductName", "infinora" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

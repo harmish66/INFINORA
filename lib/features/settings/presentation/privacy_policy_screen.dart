@@ -36,7 +36,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
             _buildSection(
               '1. Overview',
-              'Infinora: Infinite Canvas ("we", "us", or "our") values and respects your personal privacy. This Privacy Policy explains our practices regarding user information, local data handling, and third-party advertising SDK integrations within our Android application (Package: com.infinora.studio.infinora).',
+              'Infinora: Infinite Canvas ("we", "us", or "our") values and respects your personal privacy. This Privacy Policy explains our practices regarding user information, local data handling, and third-party advertising SDK integrations within our Android application (Package: com.hpcreation.infinora).',
             ),
 
             _buildSection(
@@ -94,7 +94,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               '• Application: Infinora: Infinite Canvas\n'
               '• Developer: [YOUR DEVELOPER / STUDIO NAME]\n'
               '• Email: support@infinora.app\n'
-              '• Website: [YOUR BLOGGER OR PORTFOLIO URL]',
+              '• Website: https://infinora-privacy.blogspot.com/2026/11/privacy-policy-infinora-infinite-canvas.html',
             ),
 
             const SizedBox(height: 24),
