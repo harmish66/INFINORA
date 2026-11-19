@@ -17,7 +17,10 @@ class AdmobService {
     try {
       // Configure test devices and child-directed settings
       final configuration = RequestConfiguration(
-        testDeviceIds: kDebugMode ? ['TEST_EMULATOR_DEVICE_ID'] : [],
+        testDeviceIds: [
+          'E5C8421F3F7C47FB5BAD3F37C4A46B58', // Registered developer test device
+          'TEST_EMULATOR_DEVICE_ID',
+        ],
         maxAdContentRating: MaxAdContentRating.g,
       );
       await MobileAds.instance.updateRequestConfiguration(configuration);
