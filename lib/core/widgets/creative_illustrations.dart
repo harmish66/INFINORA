@@ -1,74 +1,29 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-// Precision Vector Infinora Logo Glyph
+// Precision Infinora Brand Logo Widget
 class InfinoraLogoGlyph extends StatelessWidget {
   final double size;
+  final double? borderRadius;
 
   const InfinoraLogoGlyph({
     super.key,
     this.size = 72,
+    this.borderRadius,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size * 0.58,
-      child: CustomPaint(
-        painter: _InfinoraLogoPainter(),
+    final radius = borderRadius ?? (size * 0.22);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(radius),
+      child: Image.asset(
+        'assets/branding/infinora_icon_512.png',
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
       ),
     );
   }
-}
-
-class _InfinoraLogoPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final w = size.width;
-    final h = size.height;
-    final center = Offset(w / 2, h / 2);
-
-    final linePaint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = math.max(2.5, w * 0.08)
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round
-      ..color = const Color(0xFF2563EB); // Studio Cobalt Blue
-
-    final path = Path();
-    final a = w * 0.38;
-    bool first = true;
-
-    for (double t = -math.pi / 2; t <= 3 * math.pi / 2; t += 0.05) {
-      final denom = 1 + math.sin(t) * math.sin(t);
-      if (denom.abs() > 0.001) {
-        final x = center.dx + (a * math.cos(t)) / denom;
-        final y = center.dy + (a * math.sin(t) * math.cos(t)) / denom;
-        if (first) {
-          path.moveTo(x, y);
-          first = false;
-        } else {
-          path.lineTo(x, y);
-        }
-      }
-    }
-    path.close();
-
-    canvas.drawPath(path, linePaint);
-
-    // Center focal coordinate node
-    final nodePaint = Paint()
-      ..color = const Color(0xFF0F172A)
-      ..style = PaintingStyle.fill;
-    canvas.drawCircle(center, w * 0.03, nodePaint);
-
-    final innerWhite = Paint()..color = Colors.white;
-    canvas.drawCircle(center, w * 0.015, innerWhite);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
 // Language Selection Illustration: Cartographic Precision Globe

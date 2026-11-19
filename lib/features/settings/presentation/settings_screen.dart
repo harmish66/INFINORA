@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../core/widgets/common_widgets.dart';
+import '../../../core/widgets/creative_illustrations.dart';
 import 'widgets/country_flag_widget.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -299,6 +300,38 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           RoundedCard(
             child: Column(
               children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    children: [
+                      InfinoraLogoGlyph(size: 44),
+                      SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Infinora',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              'Infinite Canvas Studio',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.secondaryText,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(height: 16),
                 const ListTile(
                   dense: true,
                   contentPadding: EdgeInsets.zero,

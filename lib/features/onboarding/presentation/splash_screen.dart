@@ -76,7 +76,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const InfinoraLogoGlyph(size: 76),
+                const InfinoraLogoGlyph(size: 88),
                 const SizedBox(height: 20),
                 const Text(
                   'Infinora',
