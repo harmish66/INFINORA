@@ -46,3 +46,7 @@ flutter {
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
 }
+
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+}

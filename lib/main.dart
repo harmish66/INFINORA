@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/monetization/admob/ad_frequency_manager.dart';
 import 'core/monetization/admob/ad_preload_manager.dart';
 import 'core/monetization/admob/admob_service.dart';
+import 'core/monetization/remote_config/firebase_remote_config_service.dart';
 import 'core/providers/app_providers.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
@@ -13,6 +14,9 @@ import 'l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
+
+  // Initialize Firebase Remote Config for live ads keys & toggles
+  await FirebaseRemoteConfigService.initialize();
 
   // Initialize monetization frequency manager & AdMob SDK
   AdFrequencyManager.initialize(prefs);

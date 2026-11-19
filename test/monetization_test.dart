@@ -28,6 +28,37 @@ void main() {
       expect(AdConfig.enableRewardedAds, isTrue);
       expect(AdConfig.enableInterstitialAds, isTrue);
     });
+
+    test('Remote config master toggle turns all ads on and off', () {
+      AdConfig.resetToDefaults();
+      expect(AdConfig.isAdMobEnabled, isTrue);
+
+      AdConfig.applyRemoteConfigOverrides({'is_admob_enabled': false});
+      expect(AdConfig.isAdMobEnabled, isFalse);
+      expect(AdConfig.enableBannerAds, isFalse);
+      expect(AdConfig.enableNativeAds, isFalse);
+      expect(AdConfig.enableInterstitialAds, isFalse);
+
+      AdConfig.applyRemoteConfigOverrides({'is_admob_enabled': true});
+      expect(AdConfig.isAdMobEnabled, isTrue);
+    });
+
+    test('Remote config updates live production IDs and test mode switch', () {
+      AdConfig.resetToDefaults();
+      expect(AdConfig.isTestMode, isTrue);
+
+      AdConfig.applyRemoteConfigOverrides({
+        'is_test_mode': false,
+        'android_banner_prod_id': 'ca-app-pub-test/1111',
+        'android_interstitial_prod_id': 'ca-app-pub-test/2222',
+      });
+
+      expect(AdConfig.isTestMode, isFalse);
+      expect(AdConfig.androidBannerProdId, 'ca-app-pub-test/1111');
+      expect(AdConfig.androidInterstitialProdId, 'ca-app-pub-test/2222');
+
+      AdConfig.resetToDefaults();
+    });
   });
 
   group('AdFrequencyManager Tests', () {

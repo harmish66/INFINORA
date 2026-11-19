@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class AdConfig {
-  static const bool isTestMode = true;
+  static bool isTestMode = true;
   static bool isAdMobEnabled = true;
 
   // Granular Placement Toggles (Controllable via Remote Config)
@@ -42,7 +42,7 @@ class AdConfig {
   static const String androidAppOpenTestId = 'ca-app-pub-3940256099942544/9257395921';
   static const String iosAppOpenTestId = 'ca-app-pub-3940256099942544/5662855259';
 
-  // Production Ad Unit IDs (populated when releasing to app stores)
+  // Production Ad Unit IDs (populated dynamically from Firebase Remote Config or build config)
   static String androidBannerProdId = '';
   static String iosBannerProdId = '';
   static String androidInterstitialProdId = '';
@@ -89,11 +89,89 @@ class AdConfig {
     return Platform.isAndroid ? androidAppOpenProdId : iosAppOpenProdId;
   }
 
-  /// Apply runtime / Remote Config overrides dynamically
+  /// Default configuration map for Firebase Remote Config defaults
+  static Map<String, dynamic> getDefaultRemoteConfigValues() {
+    return {
+      'is_admob_enabled': true,
+      'is_test_mode': true,
+      'android_banner_prod_id': '',
+      'ios_banner_prod_id': '',
+      'android_interstitial_prod_id': '',
+      'ios_interstitial_prod_id': '',
+      'android_rewarded_prod_id': '',
+      'ios_rewarded_prod_id': '',
+      'android_native_prod_id': '',
+      'ios_native_prod_id': '',
+      'android_app_open_prod_id': '',
+      'ios_app_open_prod_id': '',
+      'enable_language_native_ad': true,
+      'enable_home_banner_ad': true,
+      'enable_home_native_ad': true,
+      'enable_template_native_ad': true,
+      'enable_template_details_native_ad': true,
+      'enable_project_native_ad': true,
+      'enable_navigation_interstitial_ad': true,
+      'enable_rewarded_ads': true,
+      'enable_app_open_ads': true,
+    };
+  }
+
+  /// Apply runtime / Firebase Remote Config overrides dynamically
   static void applyRemoteConfigOverrides(Map<String, dynamic> remoteValues) {
     if (remoteValues.containsKey('is_admob_enabled')) {
       isAdMobEnabled = remoteValues['is_admob_enabled'] as bool? ?? isAdMobEnabled;
     }
+    if (remoteValues.containsKey('is_test_mode')) {
+      isTestMode = remoteValues['is_test_mode'] as bool? ?? isTestMode;
+    }
+
+    // Dynamic Production Ad Unit IDs
+    if (remoteValues.containsKey('android_banner_prod_id')) {
+      final val = remoteValues['android_banner_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) androidBannerProdId = val;
+    }
+    if (remoteValues.containsKey('ios_banner_prod_id')) {
+      final val = remoteValues['ios_banner_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) iosBannerProdId = val;
+    }
+
+    if (remoteValues.containsKey('android_interstitial_prod_id')) {
+      final val = remoteValues['android_interstitial_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) androidInterstitialProdId = val;
+    }
+    if (remoteValues.containsKey('ios_interstitial_prod_id')) {
+      final val = remoteValues['ios_interstitial_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) iosInterstitialProdId = val;
+    }
+
+    if (remoteValues.containsKey('android_rewarded_prod_id')) {
+      final val = remoteValues['android_rewarded_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) androidRewardedProdId = val;
+    }
+    if (remoteValues.containsKey('ios_rewarded_prod_id')) {
+      final val = remoteValues['ios_rewarded_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) iosRewardedProdId = val;
+    }
+
+    if (remoteValues.containsKey('android_native_prod_id')) {
+      final val = remoteValues['android_native_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) androidNativeProdId = val;
+    }
+    if (remoteValues.containsKey('ios_native_prod_id')) {
+      final val = remoteValues['ios_native_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) iosNativeProdId = val;
+    }
+
+    if (remoteValues.containsKey('android_app_open_prod_id')) {
+      final val = remoteValues['android_app_open_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) androidAppOpenProdId = val;
+    }
+    if (remoteValues.containsKey('ios_app_open_prod_id')) {
+      final val = remoteValues['ios_app_open_prod_id']?.toString() ?? '';
+      if (val.isNotEmpty) iosAppOpenProdId = val;
+    }
+
+    // Granular Placement Toggles
     if (remoteValues.containsKey('enable_language_native_ad')) {
       enableLanguageNativeAd = remoteValues['enable_language_native_ad'] as bool? ?? enableLanguageNativeAd;
     }
@@ -127,6 +205,7 @@ class AdConfig {
 
   /// Reset to safe conservative default configuration
   static void resetToDefaults() {
+    isTestMode = true;
     isAdMobEnabled = true;
     enableLanguageNativeAd = true;
     enableHomeBannerAd = true;
