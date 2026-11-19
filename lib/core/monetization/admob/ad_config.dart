@@ -39,8 +39,8 @@ class AdConfig {
   static const String androidNativeTestId = 'ca-app-pub-3940256099942544/2247696110';
   static const String iosNativeTestId = 'ca-app-pub-3940256099942544/3986624511';
 
-  static const String androidAppOpenTestId = 'ca-app-pub-3940256099942544/9257390702';
-  static const String iosAppOpenTestId = 'ca-app-pub-3940256099942544/5575463023';
+  static const String androidAppOpenTestId = 'ca-app-pub-3940256099942544/9257395921';
+  static const String iosAppOpenTestId = 'ca-app-pub-3940256099942544/5662855259';
 
   // Production Ad Unit IDs (populated when releasing to app stores)
   static String androidBannerProdId = '';
