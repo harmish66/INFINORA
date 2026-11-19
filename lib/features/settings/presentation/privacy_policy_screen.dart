@@ -6,6 +6,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Privacy Policy'),
@@ -14,69 +16,143 @@ class PrivacyPolicyScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              'Privacy Policy for Infinora - Infinite Canvas',
+          children: [
+            const Text(
+              'Privacy Policy for Infinora: Infinite Canvas',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
-            SizedBox(height: 8),
-            Text(
-              'Last Updated: November 2026',
+            const SizedBox(height: 6),
+            const Text(
+              'Effective Date: November 19, 2026',
               style: TextStyle(fontSize: 12, color: AppColors.secondaryText),
             ),
-            SizedBox(height: 18),
-            Text(
+            const SizedBox(height: 16),
+
+            _buildHighlightBanner(
+              'Core Privacy Guarantee: Infinora uses a local-first architecture. Your drawings, sketches, canvas objects, notes, and imported photos remain stored strictly on your personal device. We do not operate cloud servers for your artwork.',
+              isDark,
+            ),
+            const SizedBox(height: 20),
+
+            _buildSection(
               '1. Overview',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+              'Infinora: Infinite Canvas ("we", "us", or "our") values and respects your personal privacy. This Privacy Policy explains our practices regarding user information, local data handling, and third-party SDK integrations within our Android application (Package: com.infinora.studio.infinora).',
             ),
-            SizedBox(height: 6),
-            Text(
-              'Infinora is committed to safeguarding your privacy. Our core philosophy is local-first creativity. Your drawings, sketches, notes, and imported pictures are stored directly on your personal device using local SQLite and storage directories.',
-              style: TextStyle(fontSize: 14, height: 1.45),
+
+            _buildSection(
+              '2. Artwork and Creative Content (Local Storage Only)',
+              'All creative work generated in Infinora stays on your device:\n'
+              '• Zero Cloud Upload: Your drawings, vector strokes, canvas layers, notes, and exported images are saved exclusively in your device private app directory and SQLite database.\n'
+              '• No Account Needed: You can use all canvas features without creating an account or providing personal details.\n'
+              '• On-Device Processing: Image imports, color mixing, stroke rendering, and exports occur entirely on-device without network transmission.',
             ),
-            SizedBox(height: 16),
-            Text(
-              '2. Data Collection and Usage',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+
+            _buildSection(
+              '3. Advertising and Google AdMob',
+              'To support ongoing maintenance and feature development, Infinora displays advertisements through Google AdMob (Google LLC). Google AdMob may collect and process certain device and diagnostic data to deliver ads:\n'
+              '• Google Advertising ID (AAID)\n'
+              '• Coarse approximate location derived from IP address (country or city level, no GPS tracking)\n'
+              '• Device technical data (model, operating system version, carrier)\n'
+              '• Ad interaction and performance metrics\n\n'
+              'You can reset or opt out of personalized ads at any time via your device settings at Settings > Google > Ads.',
             ),
-            SizedBox(height: 6),
-            Text(
-              'We do not collect personal identifiable information. We do not transmit your creative artwork, canvas layers, or private notes to external servers. All project rendering, image export, and document generation occur on-device without cloud dependence.',
-              style: TextStyle(fontSize: 14, height: 1.45),
+
+            _buildSection(
+              '4. In-App Purchases (Google Play Billing)',
+              'If you upgrade to Infinora Pro Studio, the purchase is processed directly by the Google Play Store using Google Play In-App Billing. We do not receive, process, or store your payment card or banking information. Financial transactions follow Google Play Terms of Service.',
             ),
-            SizedBox(height: 16),
-            Text(
-              '3. Device Permissions',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+
+            _buildSection(
+              '5. Device Permissions',
+              'Infinora requests only essential permissions required for creative operations:\n'
+              '• Photos and Media Access: Used only when you choose to import a reference picture onto your canvas or export high-resolution drawings to your gallery.\n'
+              '• Internet Access: Used exclusively to load ads from Google AdMob, verify subscription status with Google Play, and access external support links.\n'
+              '• Network State: Used to check connectivity before ad requests.',
             ),
-            SizedBox(height: 6),
-            Text(
-              'Infinora requests device permissions only when strictly necessary for user-initiated actions, such as picking an image from your photo library or exporting canvas documents to your device storage.',
-              style: TextStyle(fontSize: 14, height: 1.45),
+
+            _buildSection(
+              '6. Children\'s Privacy (COPPA Compliance)',
+              'Infinora is a general audience creative productivity app designed for sketching, ideation, and digital art. The application is not directed toward children under 13 years of age. We do not knowingly collect personal information from children.',
             ),
-            SizedBox(height: 16),
-            Text(
-              '4. Third-Party Services',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+
+            _buildSection(
+              '7. Data Retention and Deletion',
+              'Because your artwork is stored locally on your device:\n'
+              '• Project Deletion: Deleting a project inside the app immediately and permanently purges that file and its database records from your device.\n'
+              '• Complete Data Purge: Clearing app data in Android Settings > Apps > Infinora > Storage or uninstalling the app permanently deletes all local project files.\n'
+              '• Advertising Data: Data collected by Google AdMob is retained according to Google standard privacy retention policies.',
             ),
-            SizedBox(height: 6),
-            Text(
-              'Infinora operates completely offline. We do not use third-party analytics trackers, background profiling tools, or external ad networks in this version.',
-              style: TextStyle(fontSize: 14, height: 1.45),
+
+            _buildSection(
+              '8. Data Security',
+              'Your drawings are protected by the Android application sandbox, preventing unauthorized access by other installed apps. Any network communication for ads or billing uses industry-standard HTTPS/TLS encryption.',
             ),
-            SizedBox(height: 16),
-            Text(
-              '5. Contact and Inquiries',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+
+            _buildSection(
+              '9. Contact Information',
+              'If you have any questions or feedback regarding this Privacy Policy or your data protection, please reach out to us:\n'
+              '• Application: Infinora: Infinite Canvas\n'
+              '• Developer: [YOUR DEVELOPER / STUDIO NAME]\n'
+              '• Email: support@infinora.app\n'
+              '• Website: [YOUR BLOGGER OR PORTFOLIO URL]',
             ),
-            SizedBox(height: 6),
-            Text(
-              'If you have questions regarding this Privacy Policy or your data security, please contact us at support@infinora.app.',
-              style: TextStyle(fontSize: 14, height: 1.45),
-            ),
-            SizedBox(height: 32),
+
+            const SizedBox(height: 24),
           ],
         ),
+      ),
+    );
+  }
+
+  static Widget _buildHighlightBanner(String text, bool isDark) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF1E293B) : const Color(0xFFEFF6FF),
+        borderRadius: BorderRadius.circular(10),
+        border: Border(
+          left: BorderSide(
+            color: const Color(0xFF2563EB),
+            width: 4,
+          ),
+        ),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 13,
+          height: 1.45,
+          fontWeight: FontWeight.w500,
+          color: isDark ? const Color(0xFFE2E8F0) : const Color(0xFF1E3A8A),
+        ),
+      ),
+    );
+  }
+
+  static Widget _buildSection(String title, String content) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.2,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            content,
+            style: const TextStyle(
+              fontSize: 13.5,
+              height: 1.5,
+              color: AppColors.secondaryText,
+            ),
+          ),
+        ],
       ),
     );
   }
