@@ -6,7 +6,6 @@ import '../../features/projects/presentation/new_canvas_screen.dart';
 import '../../features/settings/presentation/language_selection_screen.dart';
 import '../../features/settings/presentation/privacy_policy_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
-import '../../features/settings/presentation/terms_conditions_screen.dart';
 import '../../features/templates/presentation/templates_screen.dart';
 
 final appRouter = GoRouter(
@@ -46,10 +45,6 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/privacy-policy',
       builder: (context, state) => const PrivacyPolicyScreen(),
-    ),
-    GoRoute(
-      path: '/terms-conditions',
-      builder: (context, state) => const TermsConditionsScreen(),
     ),
   ],
 );
