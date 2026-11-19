@@ -1,0 +1,116 @@
+{
+  "parameters": {
+    "is_admob_enabled": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Master switch: true = ads enabled across the app, false = turn off all ads",
+      "valueType": "BOOLEAN"
+    },
+    "is_test_mode": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "true = use Google test ads (safe for development), false = serve live production ads",
+      "valueType": "BOOLEAN"
+    },
+    "android_banner_prod_id": {
+      "defaultValue": {
+        "value": "ca-app-pub-1134683555208347/6787714590"
+      },
+      "description": "Live production AdMob Banner ad unit ID for Android",
+      "valueType": "STRING"
+    },
+    "android_interstitial_prod_id": {
+      "defaultValue": {
+        "value": ""
+      },
+      "description": "Live production AdMob Interstitial ad unit ID for Android",
+      "valueType": "STRING"
+    },
+    "android_native_prod_id": {
+      "defaultValue": {
+        "value": ""
+      },
+      "description": "Live production AdMob Native ad unit ID for Android",
+      "valueType": "STRING"
+    },
+    "android_rewarded_prod_id": {
+      "defaultValue": {
+        "value": ""
+      },
+      "description": "Live production AdMob Rewarded ad unit ID for Android",
+      "valueType": "STRING"
+    },
+    "android_app_open_prod_id": {
+      "defaultValue": {
+        "value": ""
+      },
+      "description": "Live production AdMob App Open ad unit ID for Android",
+      "valueType": "STRING"
+    },
+    "enable_home_banner_ad": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Show bottom banner ad on home screen",
+      "valueType": "BOOLEAN"
+    },
+    "enable_home_native_ad": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Show native ad tile inside the home project grid",
+      "valueType": "BOOLEAN"
+    },
+    "enable_language_native_ad": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Show native ad on language selection screen",
+      "valueType": "BOOLEAN"
+    },
+    "enable_template_native_ad": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Show native ad inside templates gallery",
+      "valueType": "BOOLEAN"
+    },
+    "enable_template_details_native_ad": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Show native ad inside template preview details screen",
+      "valueType": "BOOLEAN"
+    },
+    "enable_project_native_ad": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Show native ad on new canvas creation dialog",
+      "valueType": "BOOLEAN"
+    },
+    "enable_navigation_interstitial_ad": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Show full-screen interstitial ad between major screen transitions (capped by cooldown)",
+      "valueType": "BOOLEAN"
+    },
+    "enable_app_open_ads": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Show App Open ad when resuming or opening the application",
+      "valueType": "BOOLEAN"
+    },
+    "enable_rewarded_ads": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Allow users to watch rewarded video ads to unlock special templates",
+      "valueType": "BOOLEAN"
+    }
+  }
+}
