@@ -95,7 +95,15 @@ class FirebaseRemoteConfigService {
     };
 
     AdConfig.applyRemoteConfigOverrides(values);
-    debugPrint('[Firebase Remote Config] AdConfig synchronized: isAdMobEnabled=${AdConfig.isAdMobEnabled}, isTestMode=${AdConfig.isTestMode}');
+    debugPrint('[Firebase Remote Config] =====================================');
+    debugPrint('[Firebase Remote Config] is_admob_enabled: ${AdConfig.isAdMobEnabled}');
+    debugPrint('[Firebase Remote Config] is_test_mode: ${AdConfig.isTestMode}');
+    debugPrint('[Firebase Remote Config] android_banner_prod_id: "${AdConfig.androidBannerProdId}"');
+    debugPrint('[Firebase Remote Config] android_interstitial_prod_id: "${AdConfig.androidInterstitialProdId}"');
+    debugPrint('[Firebase Remote Config] android_native_prod_id: "${AdConfig.androidNativeProdId}"');
+    debugPrint('[Firebase Remote Config] android_rewarded_prod_id: "${AdConfig.androidRewardedProdId}"');
+    debugPrint('[Firebase Remote Config] android_app_open_prod_id: "${AdConfig.androidAppOpenProdId}"');
+    debugPrint('[Firebase Remote Config] =====================================');
   }
 
   /// Manually force a fetch and activate
