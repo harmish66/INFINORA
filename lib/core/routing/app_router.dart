@@ -4,7 +4,6 @@ import '../../features/onboarding/presentation/onboarding_screen.dart';
 import '../../features/onboarding/presentation/splash_screen.dart';
 import '../../features/projects/presentation/new_canvas_screen.dart';
 import '../../features/settings/presentation/language_selection_screen.dart';
-import '../../features/settings/presentation/premium_screen.dart';
 import '../../features/settings/presentation/privacy_policy_screen.dart';
 import '../../features/settings/presentation/settings_screen.dart';
 import '../../features/settings/presentation/terms_conditions_screen.dart';
@@ -39,10 +38,6 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/templates',
       builder: (context, state) => const TemplatesScreen(),
-    ),
-    GoRoute(
-      path: '/premium',
-      builder: (context, state) => const PremiumScreen(),
     ),
     GoRoute(
       path: '/settings',

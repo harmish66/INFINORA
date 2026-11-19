@@ -29,14 +29,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             _buildHighlightBanner(
-              'Core Privacy Guarantee: Infinora uses a local-first architecture. Your drawings, sketches, canvas objects, notes, and imported photos remain stored strictly on your personal device. We do not operate cloud servers for your artwork.',
+              'Core Privacy Guarantee: Infinora uses a local-first architecture. Your drawings, sketches, canvas objects, notes, and imported photos remain stored strictly on your personal device. The app is completely free to use with no in-app purchases.',
               isDark,
             ),
             const SizedBox(height: 20),
 
             _buildSection(
               '1. Overview',
-              'Infinora: Infinite Canvas ("we", "us", or "our") values and respects your personal privacy. This Privacy Policy explains our practices regarding user information, local data handling, and third-party SDK integrations within our Android application (Package: com.infinora.studio.infinora).',
+              'Infinora: Infinite Canvas ("we", "us", or "our") values and respects your personal privacy. This Privacy Policy explains our practices regarding user information, local data handling, and third-party advertising SDK integrations within our Android application (Package: com.infinora.studio.infinora).',
             ),
 
             _buildSection(
@@ -49,7 +49,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
             _buildSection(
               '3. Advertising and Google AdMob',
-              'To support ongoing maintenance and feature development, Infinora displays advertisements through Google AdMob (Google LLC). Google AdMob may collect and process certain device and diagnostic data to deliver ads:\n'
+              'To support ongoing maintenance and provide free access to all canvas tools, Infinora displays advertisements through Google AdMob (Google LLC). Google AdMob may collect and process certain device and diagnostic data to deliver ads:\n'
               '• Google Advertising ID (AAID)\n'
               '• Coarse approximate location derived from IP address (country or city level, no GPS tracking)\n'
               '• Device technical data (model, operating system version, carrier)\n'
@@ -58,15 +58,15 @@ class PrivacyPolicyScreen extends StatelessWidget {
             ),
 
             _buildSection(
-              '4. In-App Purchases (Google Play Billing)',
-              'If you upgrade to Infinora Pro Studio, the purchase is processed directly by the Google Play Store using Google Play In-App Billing. We do not receive, process, or store your payment card or banking information. Financial transactions follow Google Play Terms of Service.',
+              '4. No In-App Purchases or Financial Transactions',
+              'Infinora does not offer or process any in-app purchases, paid subscriptions, paywalls, or digital transactions. All drawing, sketching, painting, and infinite canvas tools are completely free to use. We do not request, process, or store credit card details, debit card numbers, billing addresses, or any banking or financial information.',
             ),
 
             _buildSection(
               '5. Device Permissions',
               'Infinora requests only essential permissions required for creative operations:\n'
               '• Photos and Media Access: Used only when you choose to import a reference picture onto your canvas or export high-resolution drawings to your gallery.\n'
-              '• Internet Access: Used exclusively to load ads from Google AdMob, verify subscription status with Google Play, and access external support links.\n'
+              '• Internet Access: Used exclusively to load ads from Google AdMob and access external support links.\n'
               '• Network State: Used to check connectivity before ad requests.',
             ),
 
@@ -85,7 +85,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
             _buildSection(
               '8. Data Security',
-              'Your drawings are protected by the Android application sandbox, preventing unauthorized access by other installed apps. Any network communication for ads or billing uses industry-standard HTTPS/TLS encryption.',
+              'Your drawings are protected by the Android application sandbox, preventing unauthorized access by other installed apps. Any network communication for ads uses industry-standard HTTPS/TLS encryption.',
             ),
 
             _buildSection(
