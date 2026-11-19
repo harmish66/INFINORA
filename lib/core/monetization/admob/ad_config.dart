@@ -43,7 +43,7 @@ class AdConfig {
   static const String iosAppOpenTestId = 'ca-app-pub-3940256099942544/5662855259';
 
   // Production Ad Unit IDs (populated dynamically from Firebase Remote Config or build config)
-  static String androidBannerProdId = '';
+  static String androidBannerProdId = 'ca-app-pub-1134683555208347/6787714590';
   static String iosBannerProdId = '';
   static String androidInterstitialProdId = '';
   static String iosInterstitialProdId = '';
@@ -94,7 +94,7 @@ class AdConfig {
     return {
       'is_admob_enabled': true,
       'is_test_mode': true,
-      'android_banner_prod_id': '',
+      'android_banner_prod_id': 'ca-app-pub-1134683555208347/6787714590',
       'ios_banner_prod_id': '',
       'android_interstitial_prod_id': '',
       'ios_interstitial_prod_id': '',

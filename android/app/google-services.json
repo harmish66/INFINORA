@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "395838660832",
+    "project_id": "infinora",
+    "storage_bucket": "infinora.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395838660832:android:061a4005a016bd09cc7085",
+        "android_client_info": {
+          "package_name": "com.hpcreation.infinora"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANPWpRURG3eJysfxmWSmRaCLjQNI4oIb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
